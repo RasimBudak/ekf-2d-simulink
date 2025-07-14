@@ -1,0 +1,38 @@
+function [x_hat, v_hat] = ekf_2d(z)
+% EKF 2D Simülasyon Sonuçlarını Grafikle Gösterme
+% Değişkenler: x_hat_out, y_hat_out, noisy_x, noisy_y, z_out
+
+figure;
+
+% 1. SUBPLOT - X Konumu (Tahmin vs Gürültülü)
+subplot(3,1,1);
+plot(x_hat_out.time, x_hat_out.signals.values, 'b', 'LineWidth', 1.5); hold on;
+plot(noisy_x.time, noisy_x.signals.values, 'r--', 'LineWidth', 1.2);
+title('X Konumu: EKF Tahmini vs Gürültülü Ölçüm');
+legend('x_{hat}', 'x_{noisy}');
+xlabel('Zaman (s)');
+ylabel('Pozisyon X');
+grid on;
+
+% 2. SUBPLOT - Y Konumu (Tahmin vs Gürültülü)
+subplot(3,1,2);
+plot(y_hat_out.time, y_hat_out.signals.values, 'b', 'LineWidth', 1.5); hold on;
+plot(noisy_y.time, noisy_y.signals.values, 'r--', 'LineWidth', 1.2);
+title('Y Konumu: EKF Tahmini vs Gürültülü Ölçüm');
+legend('y_{hat}', 'y_{noisy}');
+xlabel('Zaman (s)');
+ylabel('Pozisyon Y');
+grid on;
+
+% 3. SUBPLOT - MUX Edilmiş Ölçümler (z_out)
+subplot(3,1,3);
+plot(z_out.time, z_out.signals.values(:,1), 'k--', 'LineWidth', 1.2); hold on;
+plot(z_out.time, z_out.signals.values(:,2), 'm:', 'LineWidth', 1.2);
+title('z\_out: Mux ile Birleştirilmiş Gürültülü Ölçümler');
+legend('z_x', 'z_y');
+xlabel('Zaman (s)');
+ylabel('Ölçümler');
+grid on;
+
+% Opsiyonel: PNG olarak kaydet
+% saveas(gcf, 'ekf_2d_results.png');
